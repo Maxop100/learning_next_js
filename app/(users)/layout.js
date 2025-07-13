@@ -43,15 +43,11 @@ export default function RootLayout({ children }) {
               <li className="hover:text-green-600 transition-colors duration-300">
                 <Link href="/">Home</Link>
               </li>
-              <li className="hover:text-green-600 transition-colors duration-300">
-                <Link href="/clientcomp">Client Component</Link>
-              </li>
+              
               <li className="hover:text-green-600 transition-colors duration-300">
                 <Link href="/contact">Contact</Link>
               </li>
-              <li className="hover:text-green-600 transition-colors duration-300">
-                <Link href="/servercomp">Server Component</Link>
-              </li>
+              
             <li className="hover:text-green-600 transition-colors duration-300">
               <Link href="/service">Service</Link>
             </li>

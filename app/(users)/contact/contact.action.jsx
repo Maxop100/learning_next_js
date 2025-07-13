@@ -1,0 +1,24 @@
+"use server";
+
+import { db } from "@/config/db";
+
+export const contactAction = async (formData) => {
+  //   const fullName = formData.get("fullName");
+  //   const email = formData.get("email");
+  //   const message = formData.get("message");
+
+  try {
+    const { name, email, message } = Object.fromEntries(formData.entries());
+    console.log(name, email, message);
+
+    await db.execute(
+      `insert into contact_form(u_name,email,message) values (?, ? , ?)`,
+      [name, email, message]
+    );
+    return { success: true, message: "form submitted successfully" };
+  } catch (error) {
+    console.log("server action: ", error);
+
+    return { success: false, message: "error while submitting" };
+  }
+};
