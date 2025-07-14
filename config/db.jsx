@@ -19,6 +19,3 @@ try{
     console.error("Database connection error:", error);
     process.exit(1); // Exit the process if connection fails
 }
-
-
-

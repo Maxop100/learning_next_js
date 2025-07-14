@@ -1,8 +1,10 @@
 "use server";
 
+
+
 import { db } from "@/config/db";
 
-export const contactAction = async (formData) => {
+export const contactAction = async (previousState,formData) => {
   //   const fullName = formData.get("fullName");
   //   const email = formData.get("email");
   //   const message = formData.get("message");
