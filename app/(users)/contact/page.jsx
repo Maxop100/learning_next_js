@@ -5,6 +5,7 @@ import { useActionState } from "react";
 
 
 import { contactAction } from "./contact.action";
+import { useFormStatus } from "react-dom";
 
 // export const metadata = {
 //   title: "Contact Page",
@@ -89,16 +90,8 @@ const Contact = () => {
                 </div>
 
                 {/* Submit Button */}
+                <Submit/>
 
-                <button
-                  disabled={isPending}
-                  type="submit"
-                  className="w-full bg-pink-600 hover:bg-pink-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2"
-                >
-                  {
-                    isPending?(<span>loading...</span>):(<span> Send Message</span>)
-                  }
-                </button>
               </form>
             </div>
             <section>
@@ -114,3 +107,23 @@ const Contact = () => {
 };
 
 export default Contact;
+
+
+
+
+const Submit = ()=>{
+  const {pending,data,method, action } = useFormStatus();
+  return(
+    <>
+    <button
+      disabled={pending}
+      type="submit"
+      className="w-full bg-pink-600 hover:bg-pink-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2"
+    >
+      {
+        pending?(<span>loading...</span>):(<span> Send Message</span>)
+      }
+    </button>
+    </>
+  )
+}
