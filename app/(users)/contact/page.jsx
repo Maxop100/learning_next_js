@@ -1,29 +1,36 @@
 "use client";
 
-import { useActionState } from "react";
-
+import { useActionState, useTransition,useState } from "react";
 
 
 import { contactAction } from "./contact.action";
 import { useFormStatus } from "react-dom";
 
 // export const metadata = {
-//   title: "Contact Page",
-//   description: "this is my Contact page",
-//   authors: [
-//     { name: "vinod thapa" },
-//     { name: "thapa technical", url: "thapatechical.com" },
-//   ],
-//   keywords: ["nextjs", "react_js", "fullstack"],
-// };
-
-{/*const contactAction = (previousState, formData) => {
-  const { name, email, message } = Object.fromEntries(formData.entries());
-  console.log(name, email, message);
-};*/}
-
-const Contact = () => {
-  const [state,formAction,isPending] = useActionState(contactAction,null);
+  //   title: "Contact Page",
+  //   description: "this is my Contact page",
+  //   authors: [
+    //     { name: "vinod thapa" },
+    //     { name: "thapa technical", url: "thapatechical.com" },
+    //   ],
+    //   keywords: ["nextjs", "react_js", "fullstack"],
+    // };
+    
+    {/*const contactAction = (previousState, formData) => {
+      const { name, email, message } = Object.fromEntries(formData.entries());
+      console.log(name, email, message);
+      };*/}
+      
+      const Contact = () => {
+        const [isPending, startTransition ] = useTransition();
+        const [contactFormResponse, setContactFormResponse] = useState(null);
+        const HandleFormSubmit = (formData) => {
+          const { name, email, message } = Object.fromEntries(formData);
+          startTransition(async() => {
+            const res = await contactAction(name, email, message);
+            setContactFormResponse(res);
+          });
+        };
   return (
     <>
       <div className="min-h-screen bg-[rgb(14,14,14)] text-white">
@@ -34,7 +41,7 @@ const Contact = () => {
             </h1>
 
             <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-8 border border-gray-800">
-              <form className="space-y-6" action={formAction}>
+              <form className="space-y-6" action={HandleFormSubmit}>
                 {/* Full Name Field */}
                 <div>
                   <label
@@ -95,8 +102,8 @@ const Contact = () => {
               </form>
             </div>
             <section>
-              {state&&(
-                <p className={`flex mt-5 justify-center align-middle p-4 rounded-2xl ${state.success?"bg-green-500":"bg-red-500"}`}>{state.message}</p>
+              {contactFormResponse && (
+                <p className={`flex mt-5 justify-center align-middle p-4 rounded-2xl ${contactFormResponse.success ? "bg-green-500" : "bg-red-500"}`}>{contactFormResponse.message}</p>
               )}
             </section>
           </div>

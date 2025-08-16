@@ -1,32 +1,27 @@
 "use server";
 
-
-
 import { db } from "@/config/db";
 import { redirect } from "next/navigation";
 
-export const contactAction = async (previousState,formData) => {
-  //   const fullName = formData.get("fullName");
-  //   const email = formData.get("email");
-  //   const message = formData.get("message");
-  
-
+export const contactAction = async (name, email, message) => {
   try {
-    const { name, email, message } = Object.fromEntries(formData.entries());
     console.log(name, email, message);
 
     await db.execute(
-      `insert into contact_form(u_name,email,message) values (?, ? , ?)`,
+      `INSERT INTO contact_form(u_name,email,message) VALUES (?, ?, ?)`,
       [name, email, message]
     );
-    //return { success: true, message: "form submitted successfully" };
+
+    // If you want redirect:
     redirect("/");
-    
+
+    // Or if you want response back instead of redirect:
+    // return { success: true, message: "Form submitted successfully" };
+
   } catch (error) {
-    if(error.message == "NEXT_REDIRECT") throw  error;
+    if (error.message === "NEXT_REDIRECT") throw error;
 
     console.log("server action: ", error);
-
-    return { success: false, message: "error while submitting" };
+    return { success: false, message: "Error while submitting" };
   }
 };
